@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+
+  <!-- HALO -->
+
+  <category>
+    <pattern>HALO</pattern>
+    <template>
+      <condition name="user_name">
+        <!-- user_name belum di-set -->
+        <li value="unknown">
+          <random>
+            <li>
+              Halo! Aku bot yang menjelaskan jurnal tentang IndoBERT Lite untuk klasifikasi ulasan
+          Roblox di Google Play Store.
+            </li>
+            <li>
+              Hai, aku asisten virtual untuk jurnal IndoBERT Lite dan ulasan pemain Roblox.
+            </li>
+          </random>
+        <br />
+          Boleh tahu namamu? Katakan saja: NAMA SAYA ... </li>
+
+        <!-- user_name di-set -->
+        <li>
+          <random>
+            <li>Halo, <get name="user_name" />! Topik apa yang mau dibahas?</li>
+            <li>Hai lagi, <get name="user_name" />! Mau bahas topik apa? TOPIK PENDAHULUAN, METODE,
+              MODEL, atau EVALUASI?</li>
+          </random>
+        </li>
+      </condition>
+    </template>
+  </category>
+
+
+  <category>
+    <pattern>HI</pattern>
+    <template>
+      <srai>HALO</srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>HAI</pattern>
+    <template>
+      <srai>HALO</srai>
+    </template>
+  </category>
+
+  <category>
+    <pattern>APA KABAR</pattern>
+    <template>
+      <srai>HALO</srai>
+    </template>
+  </category>
+
+  <!-- MEMORI VARIABEL: NAMA PENGGUNA -->
+
+  <category>
+    <pattern>NAMA SAYA *</pattern>
+    <template>
+      <think>
+        <set name="user_name">
+          <formal>
+            <star />
+          </formal>
+        </set>
+      </think> Senang kenal denganmu, <get
+        name="user_name" />. Aku siap menjelaskan penelitian ini. Kamu bisa mulai dengan memilih
+      topik: ketik TOPIK PENDAHULUAN, TOPIK METODE, TOPIK MODEL, atau TOPIK EVALUASI. </template>
+  </category>
+
+  <!-- SET TOPIC (PENDAHULUAN / METODE / MODEL / EVALUASI) -->
+
+  <category>
+    <pattern>TOPIK PENDAHULUAN</pattern>
+    <template>
+      <think>
+        <set name="topic">PENDAHULUAN</set>
+      </think> Baik, kita masuk ke topik pendahuluan
+      jurnal ini. Tanyakan LATAR BELAKANG, TUJUAN PENELITIAN, dan TRANSFORMER. </template>
+  </category>
+
+  <category>
+    <pattern>TOPIK METODE</pattern>
+    <template>
+      <think>
+        <set name="topic">METODE</set>
+      </think> Oke, kita bahas topik metode penelitian. Kamu
+      bisa tanya: DATA, PRAPROSES, atau PEMBAGIAN DATA. </template>
+  </category>
+
+  <category>
+    <pattern>TOPIK MODEL</pattern>
+    <template>
+      <think>
+        <set name="topic">MODEL</set>
+      </think> Baik, kita bahas model IndoBERT Lite dan BERT. </template>
+  </category>
+
+  <category>
+    <pattern>TOPIK EVALUASI</pattern>
+    <template>
+      <think>
+        <set name="topic">EVALUASI</set>
+      </think> Baik, kita bahas evaluasi dan confusion
+      matrix. </template>
+  </category>
+
+  <!-- TOPIC: PENDAHULUAN (LATAR BELAKANG, TUJUAN PENELITIAN, TRANSFORMER) -->
+
+  <topic name="PENDAHULUAN">
+
+    <category>
+      <pattern>LATAR BELAKANG</pattern>
+      <template>
+        Industri game mobile berkembang sangat pesat dan Roblox menjadi salah satu game populer
+        dengan jutaan unduhan dan ribuan ulasan di Google Play Store. Ulasan ini berisi opini dan
+        pengalaman pemain, tetapi bahasanya sering tidak baku, memakai emotikon, singkatan, dan
+        campuran bahasa sehingga sulit dianalisis secara manual. Penelitian ini menggunakan
+        pendekatan otomatis berbasis transformer untuk mengklasifikasikan ulasan tersebut secara
+        lebih akurat.
+      </template>
+    </category>
+
+    <category>
+      <pattern>TUJUAN PENELITIAN</pattern>
+      <template>
+        Tujuan penelitian ini adalah membangun sistem klasifikasi ulasan game Roblox di Google Play
+        Store menggunakan model IndoBERT Lite, sehingga ulasan bisa dikelompokkan secara lebih tepat
+        dan efisien serta membantu pengembang memahami persepsi dan pengalaman pemain.
+      </template>
+    </category>
+
+    <category>
+      <pattern>TRANSFORMER</pattern>
+      <template>
+        Transformer adalah arsitektur pemrosesan bahasa yang memakai mekanisme attention untuk
+        melihat hubungan antar kata dalam satu kalimat secara paralel. Berbeda dengan RNN atau LSTM
+        yang membaca urutan kata satu per satu, transformer dapat melihat seluruh konteks sekaligus
+        dan menggunakan komponen seperti self attention, multi head attention, feed forward network,
+        residual connection, dan layer normalization.
+      </template>
+    </category>
+
+  </topic>
+
+  <!-- TOPIC: METODE (DATA, PRAPROSES, PEMBAGIAN) -->
+
+  <topic name="METODE">
+
+    <category>
+      <pattern>DATA</pattern>
+      <template>
+        Data yang dipakai adalah 20000 ulasan pengguna Roblox dari Google Play Store berbahasa
+        Indonesia dan wilayah Indonesia, diambil dengan pustaka google play scraper di Python.
+        Ulasan kemudian diberi skor dan digunakan sebagai dasar klasifikasi sentimen.
+      </template>
+    </category>
+
+    <category>
+      <pattern>PRAPROSES</pattern>
+      <template>
+        Pada tahap praproses, teks dibersihkan dari elemen tidak relevan seperti URL, email, dan
+        simbol, lalu dilakukan case folding menjadi huruf kecil dan normalisasi kata tidak baku.
+        Karena memakai model transformer, tidak dilakukan stopword removal atau stemming. Label
+        sentimen positif, negatif, dan netral diberi secara otomatis menggunakan kamus leksikon
+        Inset.
+      </template>
+    </category>
+
+    <category>
+      <pattern>PEMBAGIAN DATA</pattern>
+      <template>
+        Data dibagi menjadi 80 persen data latih dan 20 persen data uji. Data latih kemudian dibagi
+        lagi menjadi 80 persen latih murni dan 20 persen validasi sehingga proporsinya menjadi 64
+        persen data latih, 16 persen data validasi, dan 20 persen data uji.
+      </template>
+    </category>
+
+  </topic>
+
+  <!-- TOPIC: MODEL (INDOBERT LITE & BERT) -->
+
+  <topic name="MODEL">
+
+    <category>
+      <pattern>INDOBERT</pattern>
+      <template>
+        IndoBERT Lite adalah varian ringan dari IndoBERT yang khusus untuk bahasa Indonesia. Model
+        ini memakai konsep ALBERT sehingga jumlah parameternya jauh lebih kecil. Varian Lite Base
+        sekitar 11,7 juta parameter dan Lite Large sekitar 17,7 juta, lebih hemat memori dibanding
+        IndoBERT Base dan Large yang ratusan juta parameter, tetapi tetap mampu memahami konteks dua
+        arah dalam kalimat.
+      </template>
+    </category>
+
+    <category>
+      <pattern>INDOBERT *</pattern>
+      <template>
+        <srai>INDOBERT</srai>
+      </template>
+    </category>
+
+    <category>
+      <pattern>BERT</pattern>
+      <template>
+        BERT adalah encoder berbasis transformer yang membaca kalimat secara dua arah. Setiap token
+        direpresentasikan oleh penjumlahan token embedding, segment embedding, dan positional
+        embedding, kemudian diproses lewat beberapa lapisan encoder dengan multi head self
+        attention, add and norm, dan feed forward sehingga model memahami makna kata dalam konteks
+        kalimat.
+      </template>
+    </category>
+
+  </topic>
+
+  <!-- TOPIC: EVALUASI -->
+
+  <topic name="EVALUASI">
+
+    <category>
+      <pattern>EVALUASI</pattern>
+      <template>
+        Evaluasi kinerja model dilakukan dengan confusion matrix yang memuat nilai true positive,
+        true negative, false positive, dan false negative. Dari matriks ini dihitung metrik seperti
+        accuracy, precision, recall, dan F1 score untuk mengukur seberapa baik model
+        mengklasifikasikan ulasan.
+      </template>
+    </category>
+
+    <category>
+      <pattern>CONFUSION MATRIX</pattern>
+      <template>
+        Confusion matrix adalah tabel yang membandingkan hasil prediksi model dengan label
+        sebenarnya. Baris dan kolomnya menunjukkan kelas aktual dan kelas prediksi sehingga kita
+        bisa melihat berapa banyak data yang benar dan salah untuk tiap kelas.
+      </template>
+    </category>
+
+  </topic>
+
+  <!-- FALLBACK -->
+
+  <category>
+    <pattern>*</pattern>
+    <template>
+      <random>
+        <li>
+          Maaf, aku belum paham pertanyaan itu.
+          Coba pilih dulu topik dengan mengetik:
+          TOPIK PENDAHULUAN, TOPIK METODE, TOPIK MODEL, atau TOPIK EVALUASI.
+        </li>
+        <li>
+          Sepertinya pertanyaanmu di luar cakupan jurnal/topik ini.
+        </li>
+      </random>
+    </template>
+  </category>
+
+</aiml>
